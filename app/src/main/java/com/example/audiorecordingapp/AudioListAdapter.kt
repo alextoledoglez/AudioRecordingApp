@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
 class AudioListAdapter(private val data: ArrayList<String>) :
-    RecyclerView.Adapter<AudioListAdapter.ViewHolder>() {
+    RecyclerView.Adapter<AudioListAdapter.ViewHolder>(), MediaPlayer.OnPreparedListener {
 
+    private var audioListAdapter: AudioListAdapter = this
     private var mediaPlayer: MediaPlayer = MediaPlayer()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
@@ -53,13 +54,18 @@ class AudioListAdapter(private val data: ArrayList<String>) :
                 if (isPlaying) {
                     release()
                 } else {
+                    reset()
                     setDataSource(audioDataSource)
-                    prepare()
-                    start()
+                    setOnPreparedListener(audioListAdapter)
+                    prepareAsync()
                 }
             } catch (exception: Exception) {
                 print(exception.stackTrace)
             }
         }
+    }
+
+    override fun onPrepared(player: MediaPlayer) {
+        player.start()
     }
 }
