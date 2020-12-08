@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.io.File
 import java.util.*
 
 class AudioListAdapter(private val data: ArrayList<String>) :
@@ -17,15 +18,12 @@ class AudioListAdapter(private val data: ArrayList<String>) :
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
-    // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        // create a new view
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.recycler_view_item, parent, false) as View
         return ViewHolder(view)
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val audioDataSource = data[position]
         val textView = holder.itemView.findViewById(R.id.audio_data_source) as TextView
@@ -34,10 +32,16 @@ class AudioListAdapter(private val data: ArrayList<String>) :
         mediaButton.setImageResource(updateImageResource())
         mediaButton.setOnClickListener { mediaActionFrom(audioDataSource) }
         val deleteButton = holder.itemView.findViewById(R.id.delete_button) as ImageButton
-        deleteButton.setOnClickListener { }
+        deleteButton.setOnClickListener {
+            val deleted = File(audioDataSource).delete()
+            if (deleted) {
+                data.removeAt(position)
+                notifyItemRemoved(position)
+                notifyItemRangeChanged(position, data.size)
+            }
+        }
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = data.size
 
     private fun updateImageResource(): Int {

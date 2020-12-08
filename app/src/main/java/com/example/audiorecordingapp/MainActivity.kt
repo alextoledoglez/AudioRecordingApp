@@ -2,8 +2,8 @@ package com.example.audiorecordingapp
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.MotionEvent
 import android.widget.Toast
@@ -22,13 +22,12 @@ class MainActivity : AppCompatActivity() {
         private const val REQUEST_PERMISSION = 200
     }
 
-    private var audioPlayer: MediaPlayer? = null
     private var audioRecorder: AudioRecorder? = null
+    private var audioFiles: ArrayList<String> = ArrayList<String>()
 
     private var recyclerView: RecyclerView? = null
-    private var viewAdapter: RecyclerView.Adapter<*>? = null
-    private var viewManager: RecyclerView.LayoutManager? = null
-    private var audioFiles: ArrayList<String> = ArrayList<String>()
+    private var recyclerAdapter: RecyclerView.Adapter<*>? = null
+    private var recyclerLayoutManager: RecyclerView.LayoutManager? = null
 
     private var permissionGranted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
@@ -39,11 +38,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        viewAdapter = AudioListAdapter(audioFiles)
-        viewManager = LinearLayoutManager(this)
+        recyclerAdapter = AudioListAdapter(audioFiles)
+        recyclerLayoutManager = LinearLayoutManager(this)
         recyclerView = findViewById<RecyclerView>(R.id.audios_recycler_view).apply {
-            adapter = viewAdapter
-            layoutManager = viewManager
+            adapter = recyclerAdapter
+            layoutManager = recyclerLayoutManager
         }
 
         ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSION)
@@ -67,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
                     audioRecorder = AudioRecorder(outputAudioFileName)
                     view.setOnLongClickListener {
-                        Toast.makeText(baseContext, "Start recording", Toast.LENGTH_SHORT).show()
+                        showToastText(baseContext, getString(R.string.start_recording))
                         audioRecorder?.startRecording()
                         true
                     }
@@ -77,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                 MotionEvent.ACTION_UP,
                 MotionEvent.ACTION_CANCEL,
                 MotionEvent.ACTION_BUTTON_RELEASE -> {
-                    Toast.makeText(view.context, "Stop recording", Toast.LENGTH_SHORT).show()
+                    showToastText(view.context, getString(R.string.stop_recording))
                     audioRecorder?.stopRecording()
                 }
             }
@@ -90,8 +89,6 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         audioRecorder?.release()
         audioRecorder = null
-        audioPlayer?.release()
-        audioPlayer = null
     }
 
     override fun onRequestPermissionsResult(
@@ -107,8 +104,11 @@ class MainActivity : AppCompatActivity() {
     private fun addAudioFileName(fileName: String) {
         if (!audioFiles.contains(fileName)) {
             audioFiles.add(fileName)
-            viewAdapter?.notifyDataSetChanged()
+            recyclerAdapter?.notifyDataSetChanged()
         }
     }
 
+    private fun showToastText(context: Context, text: String) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+    }
 }

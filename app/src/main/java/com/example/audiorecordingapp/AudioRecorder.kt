@@ -25,6 +25,8 @@ class AudioRecorder(outputFileName: String) : MediaRecorder() {
 
     fun stopRecording() {
         recorder.stop()
+        recorder.reset()
         recorder.release()
     }
+
 }
