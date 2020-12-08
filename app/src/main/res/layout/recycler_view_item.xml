@@ -15,7 +15,9 @@
         android:gravity="center"
         android:text="TextView"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/media_button"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
@@ -27,6 +29,7 @@
         android:layout_marginTop="5dp"
         android:contentDescription="TODO"
         android:src="@drawable/ic_media_play"
+        app:layout_constraintEnd_toStartOf="@+id/delete_button"
         app:layout_constraintLeft_toRightOf="@+id/audio_data_source"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,11 +37,12 @@
         android:id="@+id/delete_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginRight="5dp"
         android:contentDescription="TODO"
         android:src="@drawable/ic_media_delete"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/media_button"
         app:layout_constraintTop_toTopOf="parent" />
 
