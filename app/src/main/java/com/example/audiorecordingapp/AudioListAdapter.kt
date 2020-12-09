@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import java.io.File
 import java.util.*
 
-class AudioListAdapter(private val data: ArrayList<String>) :
+class AudioListAdapter(private val data: ArrayList<AudioFile>) :
     RecyclerView.Adapter<AudioListAdapter.ViewHolder>(), MediaPlayer.OnPreparedListener {
 
     private var audioListAdapter: AudioListAdapter = this
@@ -25,15 +25,15 @@ class AudioListAdapter(private val data: ArrayList<String>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val audioDataSource = data[position]
+        val audioFile = data[position]
         val textView = holder.itemView.findViewById(R.id.audio_data_source) as TextView
-        textView.text = audioDataSource
+        textView.text = audioFile.name
         val mediaButton = holder.itemView.findViewById(R.id.media_button) as ImageButton
         mediaButton.setImageResource(updateImageResource())
-        mediaButton.setOnClickListener { mediaActionFrom(audioDataSource) }
+        mediaButton.setOnClickListener { mediaActionFrom(audioFile.path) }
         val deleteButton = holder.itemView.findViewById(R.id.delete_button) as ImageButton
         deleteButton.setOnClickListener {
-            val deleted = File(audioDataSource).delete()
+            val deleted = File(audioFile.path).delete()
             if (deleted) {
                 data.removeAt(position)
                 notifyItemRemoved(position)

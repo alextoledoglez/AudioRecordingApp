@@ -11,4 +11,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="start_recording">Start recording</string>
     <string name="stop_recording">Stop recording</string>
+    <string name="record_action">Record action</string>
+    <string name="play_stop_action">Play/Stop action</string>
+    <string name="delete_action">Delete action</string>
 </resources>

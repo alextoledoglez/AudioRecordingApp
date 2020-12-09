@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var audioRecorder: AudioRecorder? = null
-    private var audioFiles: ArrayList<String> = ArrayList<String>()
+    private var audioFiles: ArrayList<AudioFile> = ArrayList<AudioFile>()
 
     private var recyclerView: RecyclerView? = null
     private var recyclerAdapter: RecyclerView.Adapter<*>? = null
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         val audioPath = "${externalCacheDir?.absolutePath}/"
         val directory = File(audioPath)
         val files: Array<File>? = directory.listFiles()
-        files?.forEach { file -> addAudioFileName(fileName = file.path) }
+        files?.forEach { file -> addAudioFileDto(AudioFile(file.name, file.path)) }
 
         val recordButton = findViewById<FloatingActionButton>(R.id.fab)
         recordButton.setOnTouchListener { view, event ->
@@ -59,12 +59,11 @@ class MainActivity : AppCompatActivity() {
                 MotionEvent.ACTION_DOWN,
                 MotionEvent.ACTION_BUTTON_PRESS -> {
 
-                    val audioUUID = UUID.randomUUID().toString()
-                    val audioName = "_audio_record.3gp"
-                    val outputAudioFileName = audioPath + audioUUID + audioName
-                    addAudioFileName(outputAudioFileName)
+                    val fileName = "AUD_" + Calendar.getInstance().timeInMillis.toString() + ".3gp"
+                    val filePath = audioPath + fileName
+                    addAudioFileDto(AudioFile(fileName, filePath))
 
-                    audioRecorder = AudioRecorder(outputAudioFileName)
+                    audioRecorder = AudioRecorder(filePath)
                     view.setOnLongClickListener {
                         showToastText(baseContext, getString(R.string.start_recording))
                         audioRecorder?.startRecording()
@@ -101,9 +100,10 @@ class MainActivity : AppCompatActivity() {
         if (!permissionGranted) finish()
     }
 
-    private fun addAudioFileName(fileName: String) {
-        if (!audioFiles.contains(fileName)) {
-            audioFiles.add(fileName)
+    private fun addAudioFileDto(audioFile: AudioFile) {
+        val noneMatch = audioFiles.none { it.name == audioFile.name }
+        if (noneMatch) {
+            audioFiles.add(audioFile)
             recyclerAdapter?.notifyDataSetChanged()
         }
     }
