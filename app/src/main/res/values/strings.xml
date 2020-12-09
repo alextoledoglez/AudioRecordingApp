@@ -1,17 +1,19 @@
 <resources>
-    <string name="app_name">AudioRecordingApp</string>
+    <string name="app_name">Audio Recording POC</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
+    <string name="slide_to_cancel">"Slide to cancel"</string>
+    <string name="type_a_message">Type a message</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="start_recording">Start recording</string>
-    <string name="stop_recording">Stop recording</string>
-    <string name="record_action">Record action</string>
+    <string name="recording_started">Recording started</string>
+    <string name="recording_locked">Recording locked</string>
+    <string name="recording_complete">Recording complete</string>
+    <string name="recording_cancelled">Recording cancelled</string>
     <string name="play_stop_action">Play/Stop action</string>
     <string name="delete_action">Delete action</string>
 </resources>

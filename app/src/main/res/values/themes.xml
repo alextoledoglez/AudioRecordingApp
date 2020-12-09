@@ -21,4 +21,25 @@
     <style name="Theme.AudioRecordingApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.AudioRecordingApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="cornerButtonTheme" parent="CardView">
+        <item name="android:layout_width">44dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:layout_gravity">bottom|right</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:elevation" tools:targetApi="lollipop">2dp</item>
+        <item name="android:translationZ" tools:targetApi="lollipop">2dp</item>
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardCornerRadius">22dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardUseCompatPadding">false</item>
+        <item name="contentPadding">0dp</item>
+    </style>
 </resources>
